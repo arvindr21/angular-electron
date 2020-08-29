@@ -1,6 +1,7 @@
-import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+
+import { BrowserWindow, app, screen } from 'electron';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
