@@ -38,6 +38,9 @@
         "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
     },
     "dependencies": {
+        "@types/nedb": "1.8.10",
+        "lighthouse": "6.3.0",
+        "nedb-promises": "4.0.4",
         "ng-zorro-antd": "9.3.0"
     },
     "devDependencies": {

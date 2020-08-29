@@ -29,8 +29,8 @@ export class HomeComponent implements OnInit {
     this.editId = null;
   }
 
-  deleteRow(id: number): void {
-    this.listOfData = this.listOfData.filter(d => d.id !== id);
+  deleteRow(id: string): void {
+    // this.projects.delete(id);
   }
 
   ngOnInit(): void {
@@ -46,16 +46,20 @@ export class HomeComponent implements OnInit {
   }
 
   load(): void {
-    this.listOfData = this.projects.getAll();
+    this.projects.get().then((d) => {
+      this.listOfData = [].concat(...d);
+    })
   }
 
   handleOk(): void {
     this.isOkLoading = true;
     this.isVisible = false;
-    this.projects.set({
-      id: +new Date(),
+    this.projects.create({
       name: this.validateForm.get('name').value
-    });
+    }).then(d => {
+      this.listOfData.push(d);
+    }).finally(() => this.isOkLoading = true)
+
 
   }
 

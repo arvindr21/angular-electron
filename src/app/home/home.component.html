@@ -4,16 +4,22 @@
     </nz-header>
     <nz-content>
         <div class="inner-content">
-            <nz-empty [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
+            <nz-empty *ngIf="!listOfData.length" [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
                 <ng-template #contentTpl>
                     <span> You do not have any PerfMan Projects </span>
-                </ng-template>
-                <ng-template #footerTpl>
+                    <br><br>
                     <button nz-button nzType="primary" (click)="createNew()">
-            Create New Project
-          </button>
+                      Create New Project
+                    </button>
                 </ng-template>
+                <ng-template #footerTpl> </ng-template>
+
             </nz-empty>
+
+
+            <button nz-button nzType="primary" style="float: right;" (click)="createNew()" *ngIf="listOfData.length">
+        Create New Project
+      </button>
 
             <br />
             <nz-divider nzText="Existing Projects" *ngIf="listOfData.length"></nz-divider>
@@ -29,17 +35,17 @@
                 <tbody>
                     <tr *ngFor="let data of editRowTable.data" class="editable-row">
                         <td>
-                            <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                            <div class="editable-cell" [hidden]="editId === data._id" (click)="startEdit(data._id)">
                                 {{ data.name }}
                             </div>
-                            <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
+                            <input [hidden]="editId !== data._id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
                         </td>
-                        <td>{{ data.id }}</td>
+                        <td>{{ data._id }}</td>
                         <td>
-                            <button nz-button [routerLink]="['/', 'project', data.id]" nzType="primary">
+                            <button nz-button [routerLink]="['/', 'detail', data._id]" nzType="primary">
                 Browse
               </button>
-                            <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
+                            <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data._id)">
                 Delete
               </button>
                         </td>

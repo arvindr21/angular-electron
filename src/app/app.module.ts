@@ -66,7 +66,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ScrollingModule,
     DragDropModule
   ],
-  providers: [ { provide: NZ_I18N, useValue: en_US }, { provide: NZ_ICONS, useValue: icons } ],
+  providers: [
+    { provide: NZ_I18N, useValue: en_US },
+    { provide: NZ_ICONS, useValue: icons }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

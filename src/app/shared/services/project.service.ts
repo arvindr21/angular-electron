@@ -1,3 +1,4 @@
+import { DataStoreService } from "../store/datastore.service";
 import { Injectable } from '@angular/core';
 import { Project } from '../models/project';
 
@@ -6,14 +7,17 @@ import { Project } from '../models/project';
 })
 export class ProjectService {
 
-  projects: Array<Project> = [];
-  constructor() { }
+  constructor(private dataStoreService: DataStoreService) { }
 
-  set(project: Project): void {
-    this.projects.push(project);
+  create(project: Project): Promise<Project> {
+    return this.dataStoreService.insert(project);
   }
 
-  getAll(): Array<Project> {
-    return this.projects;
+  get(): Promise<Array<Project>> {
+    return this.dataStoreService.findAll();
   }
+
+
+
+
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { LighthouseService } from "../tools/lighthouse.service";
+
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -7,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private lighthouseService: LighthouseService) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.lighthouseService.launchChrome('https://google.com').then((d) => {
+      console.log(d);
+    })
+  }
 
 }

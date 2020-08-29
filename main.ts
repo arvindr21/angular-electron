@@ -1,6 +1,7 @@
-import { app, BrowserWindow, screen } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+
+import { BrowserWindow, app, dialog, screen } from 'electron';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -39,6 +40,19 @@ function createWindow(): BrowserWindow {
       slashes: true
     }));
   }
+
+  win.on('close', function (e) {
+    const choice = dialog.showMessageBoxSync(this,
+      {
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        title: 'Confirm',
+        message: 'Are you sure you want to quit?'
+      });
+    if (choice === 1) {
+      e.preventDefault();
+    }
+  });
 
   // Emitted when the window is closed.
   win.on('closed', () => {
