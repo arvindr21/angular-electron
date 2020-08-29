@@ -1,3 +1,52 @@
-:host {
-  
+nz-layout {
+    height: 100%;
+}
+
+.logo {
+    width: 120px;
+    height: 31px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px auto;
+    text-align: center;
+}
+
+[nz-menu] {
+    line-height: 64px;
+}
+
+nz-breadcrumb {
+    margin: 16px 0;
+}
+
+nz-content {
+    padding: 0 50px;
+}
+
+nz-footer,
+nz-header {
+    text-align: center;
+}
+
+.inner-content {
+    background: #fff;
+    padding: 24px;
+    min-height: 100%;
+    margin: 24px 0;
+}
+
+.editable-cell {
+    position: relative;
+    padding: 5px 12px;
+    cursor: pointer;
+}
+
+.editable-row:hover .editable-cell {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 4px 11px;
+}
+
+[nz-button] {
+    margin-right: 8px;
+    margin-bottom: 12px;
 }

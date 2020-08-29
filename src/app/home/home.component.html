@@ -1,7 +1,64 @@
-<div class="container">
-  <h1 class="title">
-    {{ 'PAGES.HOME.TITLE' | translate }}
-  </h1>
+<nz-layout>
+    <nz-header>
+        <div class="logo"></div>
+    </nz-header>
+    <nz-content>
+        <div class="inner-content">
+            <nz-empty [nzNotFoundContent]="contentTpl" [nzNotFoundFooter]="footerTpl">
+                <ng-template #contentTpl>
+                    <span> You do not have any PerfMan Projects </span>
+                </ng-template>
+                <ng-template #footerTpl>
+                    <button nz-button nzType="primary" (click)="createNew()">
+            Create New Project
+          </button>
+                </ng-template>
+            </nz-empty>
 
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a>
-</div>
+            <br />
+            <nz-divider nzText="Existing Projects" *ngIf="listOfData.length"></nz-divider>
+            <br />
+            <nz-table #editRowTable nzBordered nzPageSize="5" [nzData]="listOfData" *ngIf="listOfData.length" nzTableLayout="fixed">
+                <thead>
+                    <tr>
+                        <th nzWidth="30%">Name</th>
+                        <th>ID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let data of editRowTable.data" class="editable-row">
+                        <td>
+                            <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                                {{ data.name }}
+                            </div>
+                            <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
+                        </td>
+                        <td>{{ data.id }}</td>
+                        <td>
+                            <button nz-button [routerLink]="['/', 'project', data.id]" nzType="primary">
+                Browse
+              </button>
+                            <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
+                Delete
+              </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+    </nz-content>
+    <nz-footer>PerfMan | Deloitte Consulting | ©2020</nz-footer>
+</nz-layout>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Create New Project" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzOkLoading]="isOkLoading">
+    <form nz-form [formGroup]="validateForm">
+        <nz-form-item>
+            <nz-form-control nzErrorTip="Please enter a valid project name">
+                <nz-input-group nzPrefixIcon="plus-square">
+                    <input type="text" nz-input formControlName="name" placeholder="My Awesome Project" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-modal>
