@@ -6,43 +6,80 @@
         </ul>
     </nz-header>
     <nz-content class="outer-content">
-        <nz-breadcrumb>
+        <nz-breadcrumb *ngIf="project">
             <nz-breadcrumb-item>
                 <a [routerLink]="['/']">Projects</a>
             </nz-breadcrumb-item>
-            <nz-breadcrumb-item>{{id}}</nz-breadcrumb-item>
+            <nz-breadcrumb-item>{{ project.name }}</nz-breadcrumb-item>
+            <nz-breadcrumb-item>{{ project._id }}</nz-breadcrumb-item>
         </nz-breadcrumb>
         <nz-layout class="inner-layout">
             <nz-sider nzWidth="200px" nzTheme="light">
                 <ul nz-menu nzMode="inline" class="sider-menu">
-                    <li nz-submenu nzOpen nzTitle="subnav 1" nzIcon="user">
-                        <ul>
-                            <li nz-menu-item nzSelected>option1</li>
-                            <li nz-menu-item>option2</li>
-                            <li nz-menu-item>option3</li>
-                            <li nz-menu-item>option4</li>
-                        </ul>
-                    </li>
-                    <li nz-submenu nzTitle="subnav 2" nzIcon="laptop">
-                        <ul>
-                            <li nz-menu-item>option5</li>
-                            <li nz-menu-item>option6</li>
-                            <li nz-menu-item>option7</li>
-                            <li nz-menu-item>option8</li>
-                        </ul>
-                    </li>
-                    <li nz-submenu nzTitle="subnav 3" nzIcon="notification">
-                        <ul>
-                            <li nz-menu-item>option9</li>
-                            <li nz-menu-item>option10</li>
-                            <li nz-menu-item>option11</li>
-                            <li nz-menu-item>option12</li>
-                        </ul>
+                    <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzSelected>
+                        <em nz-icon nzType="tool"></em>
+                        <span>Setup</span>
                     </li>
                 </ul>
             </nz-sider>
-            <nz-content class="inner-content">Content</nz-content>
+            <nz-content class="inner-content">
+                <button nz-button (click)="createNew()" nzType="primary">Add</button>
+                <br />
+                <br />
+                <nz-table #editRowTable nzBordered [nzData]="listOfData">
+                    <thead>
+                        <tr>
+                            <th scope="" nzWidth="30%">Name</th>
+                            <th scope="" nzWidth="40%">URL</th>
+                            <th scope="" nzWidth="20%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of editRowTable.data" class="editable-row">
+                            <td>
+                                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                                    {{ data.name }}
+                                </div>
+                                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit(data)" />
+                            </td>
+                            <td>
+                                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                                    {{ data.url }}
+                                </div>
+                                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.url" (blur)="stopEdit(data)" required />
+                            </td>
+                            <td>
+                                <button nz-button (click)="audit(data.id)" nzType="primary">
+                                Audit
+                              </button>
+                                <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
+                                Delete
+                              </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+            </nz-content>
         </nz-layout>
         <nz-footer>PerfMan | Deloitte Consulting | ©2020</nz-footer>
     </nz-content>
 </nz-layout>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Add New URL" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzOkLoading]="isOkLoading">
+    <form nz-form [formGroup]="validateForm" class="login-form">
+        <nz-form-item>
+            <nz-form-control nzHasFeedback nzErrorTip="Please enter a webpage name">
+                <nz-input-group nzPrefixIcon="home">
+                    <input type="text" nz-input formControlName="name" placeholder="Home Page - With Carousel" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-control nzHasFeedback nzErrorTip="Please enter a valid webpage URL">
+                <nz-input-group nzPrefixIcon="link">
+                    <input type="text" nz-input formControlName="url" placeholder="https://example.com" />
+                </nz-input-group>
+            </nz-form-control>
+        </nz-form-item>
+    </form>
+</nz-modal>
