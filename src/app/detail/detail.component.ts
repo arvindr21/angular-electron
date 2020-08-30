@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LighthouseService } from "../tools/lighthouse.service";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -8,13 +8,11 @@ import { LighthouseService } from "../tools/lighthouse.service";
   styleUrls: ['./detail.component.scss']
 })
 export class DetailComponent implements OnInit {
-
-  constructor(private lighthouseService: LighthouseService) { }
+  id: string;
+  constructor(private route:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.lighthouseService.launchChrome('https://google.com').then((d) => {
-      console.log(d);
-    })
+    this.id = this.route.snapshot.params['id'];
   }
 
 }
