@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Project, URLConfig } from '../shared/models/project';
+import { URL_REGEX, replaceDotsInKeys } from "../utilities";
 
 import { ActivatedRoute } from '@angular/router';
 import { LighthouseResultObject } from '../shared/models/lhr';
@@ -8,7 +9,7 @@ import { LighthouseService } from "../tools/lighthouse.service";
 import { LinkPreviewService } from "../tools/link-preview.service";
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProjectService } from "../shared/services/project.service";
-import { URL_REGEX } from "../utilities";
+import { utils } from 'mocha';
 
 @Component({
   selector: 'app-detail',
@@ -90,21 +91,23 @@ export class DetailComponent implements OnInit {
     if (!name || !url) return;
     this.isOkLoading = true;
 
-    this.project.urls.push({
-      id: +new Date(),
-      name,
-      url,
-      isProcessing: false
-    });
+    this.linkPreviewService.get(url).then(preview => {
+      this.project.urls.push({
+        id: +new Date(),
+        name,
+        url,
+        preview,
+        isProcessing: false
+      });
 
-    this.projectService.update(this.project).then(() => {
-      this.load();
-      this.messageService.success('Created successful');
-      this.isOkLoading = false;
-      this.validateForm.reset();
-      this.isVisible = false;
+      this.projectService.update(this.project).then(() => {
+        this.load();
+        this.messageService.success('Created successful');
+        this.isOkLoading = false;
+        this.validateForm.reset();
+        this.isVisible = false;
+      });
     });
-
   }
 
   handleCancel(): void {
@@ -115,14 +118,15 @@ export class DetailComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async audit(urlConfig: URLConfig) {
     // https://github.com/GoogleChrome/lighthouse/blob/master/docs/understanding-results.md
-    // this.linkPreviewService.get(urlConfig.url).then(d => {
-    //   console.log(d);
-    // });
     urlConfig.isProcessing = true;
     const report = await this.lighthouseService.getReport(urlConfig.url);
-    const lhr: LighthouseResultObject = report.lhr;
+    const lhr: LighthouseResultObject =  replaceDotsInKeys(report.lhr);
     console.log(lhr);
-    urlConfig.isProcessing = false;
+    urlConfig.lhr = lhr;
+    console.log(this.project);
+    this.projectService.update(this.project).then(() => {
+      urlConfig.isProcessing = false;
+    });
   }
 
 }

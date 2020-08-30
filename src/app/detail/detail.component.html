@@ -15,11 +15,13 @@
         </nz-breadcrumb>
         <nz-spin [nzSpinning]="isSpinning">
             <nz-layout class="inner-layout">
-                <nz-tabset [nzTabPosition]="'left'" [nzType]="'line'" [nzSize]="'large'" *ngIf="project">
+                <nz-tabset [nzTabPosition]="'left'" [nzType]="'line'" [nzSize]="'large'" *ngIf="project" style="padding: 2em; min-height: 50vh">
                     <nz-tab nzTitle="Setup">
                         <ng-template nz-tab>
                             <nz-content class="inner-content">
-                                <button nz-button (click)="createNew()" nzType="primary">Add URL(s)</button>
+                                <button nz-button (click)="createNew()" nzType="primary">
+                  Add URL(s)
+                </button>
                                 <br />
                                 <br />
                                 <nz-table #editRowTable nzBordered [nzData]="listOfData">
@@ -49,8 +51,8 @@
                                   Audit
                                 </button> -->
                                                 <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
-                                  Delete
-                                </button>
+                          Delete
+                        </button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -59,11 +61,98 @@
                         </ng-template>
                     </nz-tab>
                     <nz-tab *ngFor="let tab of project.urls" [nzTitle]="tab.name">
-                        <nz-result nzStatus="success" nzTitle="We are all set to Audit">
-                            <div nz-result-extra>
-                                <button nz-button nzType="primary" [nzLoading]="tab.isProcessing" (click)="audit(tab)">Start Audit</button>
-                            </div>
-                        </nz-result>
+                        <nz-page-header class="site-page-header">
+                            <!--avatar-->
+
+                            <img src="{{ tab.preview.favicons[0] }}" alt="content" />
+
+                            <!--title-->
+                            <nz-page-header-title>{{ tab.name }} </nz-page-header-title>
+
+                            <!--subtitle-->
+                            <nz-page-header-subtitle>{{ tab.preview.contentType }}
+                            </nz-page-header-subtitle>
+
+                            <!--tags-->
+                            <nz-page-header-tags>
+                                <nz-tag [nzColor]="'blue'">Running</nz-tag>
+                            </nz-page-header-tags>
+
+                            <!--extra-->
+                            <nz-page-header-extra>
+                                <!-- <button nz-button>Operation</button> -->
+                                <button nz-button nzType="primary" (click)="audit(tab)" [nzLoading]="tab.isProcessing">
+                  Audit
+                </button>
+                            </nz-page-header-extra>
+
+                            <!--content-->
+                            <nz-page-header-content>
+                                <div nz-row>
+                                    <div class="webpreview">
+                                        <img src="{{ tab.preview.favicons[0] }}" alt="content" />
+                                    </div>
+                                    <div class="content">
+                                        <div nz-paragraph>
+                                            <h3>{{ tab.preview.title }}</h3>
+                                            {{ tab.preview.description }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br /><br />
+                                <div>
+                                    <nz-divider nzText="Audit Report" nzOrientation="center"></nz-divider>
+                                    <nz-spin [nzSpinning]="tab.isProcessing">
+                                        <nz-empty></nz-empty>
+                                    </nz-spin>
+
+                                    <div style="background: #ECECEC; padding: 30px;">
+                                        <nz-row [nzGutter]="16">
+                                            <nz-col [nzSpan]="12">
+                                                <nz-card>
+                                                    <nz-statistic [nzValue]="(11.28 | number: '1.0-2')!" [nzTitle]="'Active'" [nzPrefix]="prefixTplOne" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#3F8600' }">
+                                                    </nz-statistic>
+                                                    <ng-template #prefixTplOne><i nz-icon nzType="arrow-up"></i></ng-template>
+                                                </nz-card>
+                                            </nz-col>
+                                            <nz-col [nzSpan]="12">
+                                                <nz-card>
+                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    </nz-statistic>
+                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                </nz-card>
+                                            </nz-col>
+                                        </nz-row>
+                                        <nz-row [nzGutter]="16">
+                                            <nz-col [nzSpan]="12">
+                                                <nz-card>
+                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    </nz-statistic>
+                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                </nz-card>
+                                            </nz-col>
+                                            <nz-col [nzSpan]="12">
+                                                <nz-card>
+                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    </nz-statistic>
+                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                </nz-card>
+                                            </nz-col>
+                                        </nz-row>
+                                        <nz-row [nzGutter]="16">
+                                            <nz-col [nzSpan]="12">
+                                                <nz-card>
+                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    </nz-statistic>
+                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                </nz-card>
+                                            </nz-col>
+                                        </nz-row>
+                                    </div>
+                                </div>
+                            </nz-page-header-content>
+                        </nz-page-header>
                     </nz-tab>
                 </nz-tabset>
             </nz-layout>

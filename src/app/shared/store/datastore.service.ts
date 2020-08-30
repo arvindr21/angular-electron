@@ -13,7 +13,7 @@ export class DataStoreService {
     this.db = new Datastore({
       filename: database,
       autoload: true,
-      timestamps: true
+      timestampData: true
     });
 
   }

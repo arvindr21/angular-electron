@@ -60,3 +60,45 @@ nz-footer {
     border-radius: 4px;
     padding: 4px 11px;
 }
+
+.ant-tabs .ant-tabs-left-bar .ant-tabs-nav,
+.ant-tabs .ant-tabs-right-bar .ant-tabs-nav {
+    width: 300px !important;
+}
+
+.content {
+    flex: 1;
+}
+
+.content p {
+    margin-bottom: 1em;
+}
+
+.content-link a {
+    margin-right: 16px;
+}
+
+.content-link a img {
+    margin-right: 8px;
+}
+
+.webpreview-image {
+    margin: 0 0 0 60px;
+    display: flex;
+    align-items: center;
+}
+
+.webpreview img {
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .content-image {
+        flex: 100%;
+        margin: 24px 0 0;
+    }
+}
+
+.webpreview {
+    margin-right: 24px;
+}

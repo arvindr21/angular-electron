@@ -1,3 +1,5 @@
+import { LighthouseResultObject } from "./lhr";
+
 export interface Project {
   _id?: string;
   name: string;
@@ -10,4 +12,20 @@ export interface URLConfig {
   name: string;
   url: string;
   isProcessing?: boolean;
+  preview?: LinkPreview;
+  lhr?: LighthouseResultObject;
 }
+
+export interface LinkPreview {
+  url:         string;
+  title:       string;
+  description: string;
+  mediaType:   string;
+  contentType: string;
+  images:      string[];
+  videos:      string[];
+  favicons:    string[];
+  siteName?:   string;
+}
+
+

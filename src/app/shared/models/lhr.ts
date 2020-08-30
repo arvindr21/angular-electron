@@ -311,6 +311,7 @@ export enum Target {
   Blank = "_blank",
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PurpleSummary {
 }
 
