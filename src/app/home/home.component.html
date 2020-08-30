@@ -45,7 +45,7 @@
                             <button nz-button [routerLink]="['/', 'detail', data._id]" nzType="primary">
                 Browse
               </button>
-                            <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data._id, i)">
+                            <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data._id)">
                 Delete
               </button>
                         </td>

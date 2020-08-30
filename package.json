@@ -1,22 +1,7 @@
 {
-    "name": "angular-electron",
-    "version": "7.2.1",
+    "name": "perfman",
+    "version": "0.4.5",
     "private": true,
-    "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
-    "keywords": [
-        "angular",
-        "angular 9",
-        "electron",
-        "typescript",
-        "eslint",
-        "spectron",
-        "sass"
-    ],
-    "homepage": "https://github.com/maximegris/angular-electron",
-    "author": {
-        "name": "Maxime GRIS",
-        "email": "maxime.gris@gmail.com"
-    },
     "main": "main.js",
     "scripts": {
         "build": "npm run electron:serve-tsc && ng build --base-href ./",
