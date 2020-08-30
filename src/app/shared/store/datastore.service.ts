@@ -35,6 +35,19 @@ export class DataStoreService {
     });
   }
 
+  update(data: any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      return this.db.update({ _id: data._id }, { $set: data }, ((err: any, item: any) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(item);
+        }
+      }));
+    })
+  }
+
   findAll(): Promise<Array<any>> {
     return new Promise((resolve, reject) => {
       return this.db.find({}, ((err: any, items: any) => {
@@ -48,7 +61,20 @@ export class DataStoreService {
     })
   }
 
-  remove(id: any) {
+  find(id: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      return this.db.findOne({ _id: id }, ((err: any, item: any) => {
+        if (err) {
+          reject(err);
+        }
+        else {
+          resolve(item);
+        }
+      }));
+    })
+  }
+
+  remove(id: any): Promise<any> {
     return new Promise((resolve, reject) => {
       return this.db.remove({ _id: id }, {}, ((err: any, numRemoved: any) => {
         if (err) {

@@ -17,7 +17,16 @@ export class ProjectService {
     return this.dataStoreService.findAll();
   }
 
+  getOne(id: string): Promise<Project> {
+    return this.dataStoreService.find(id);
+  }
 
+  remove(id: string): Promise<any> {
+    return this.dataStoreService.remove(id);
+  }
 
+  update(project: Project): Promise<Project> {
+    return this.dataStoreService.update(project);
+  }
 
 }
