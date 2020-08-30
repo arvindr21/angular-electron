@@ -124,9 +124,8 @@ export class DetailComponent implements OnInit {
     console.log(lhr);
     urlConfig.lhr = lhr;
     console.log(this.project);
-    this.projectService.update(this.project).then(() => {
-      urlConfig.isProcessing = false;
-    });
+    urlConfig.isProcessing = false;
+    this.projectService.update(this.project);
   }
 
 }

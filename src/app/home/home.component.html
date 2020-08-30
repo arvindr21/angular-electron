@@ -27,9 +27,10 @@
             <nz-table #editRowTable nzBordered nzPageSize="5" [nzData]="listOfData" *ngIf="listOfData.length" nzTableLayout="fixed">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th nzWidth="30%">Name</th>
-                        <th>Action</th>
+                        <th scope="col">ID</th>
+                        <th scope="col" nzWidth="30%">Name</th>
+                        <th scope="col">Updated At</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,7 @@
                             </div>
                             <input [hidden]="editId !== data._id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit()" />
                         </td>
+                        <td>{{ data.updatedAt | date: 'medium' }}</td>
                         <td>
                             <button nz-button [routerLink]="['/', 'detail', data._id]" nzType="primary">
                 Browse

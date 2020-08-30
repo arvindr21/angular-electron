@@ -1,5 +1,5 @@
 nz-layout {
-    height: 100%;
+    min-height: 100vh;
 }
 
 .logo {
@@ -10,12 +10,23 @@ nz-layout {
     float: left;
 }
 
+nz-header {
+    position: fixed;
+    width: 100%;
+    z-index: 1;
+}
+
 .header-menu {
     line-height: 64px;
 }
 
 .outer-content {
     padding: 0 50px;
+}
+
+nz-content {
+    padding: 0 50px;
+    margin-top: 64px;
 }
 
 nz-breadcrumb {
@@ -32,8 +43,9 @@ nz-breadcrumb {
 }
 
 .inner-content {
-    padding: 0 24px;
-    min-height: 280px;
+    background: #fff;
+    padding: 24px;
+    min-height: 380px;
 }
 
 nz-footer {
@@ -89,16 +101,17 @@ nz-footer {
 }
 
 .webpreview img {
-    width: 100%;
+    width: 72%;
 }
 
 @media (max-width: 768px) {
     .content-image {
-        flex: 100%;
+        flex: 50%;
         margin: 24px 0 0;
     }
 }
 
 .webpreview {
     margin-right: 24px;
+    text-align: center;
 }

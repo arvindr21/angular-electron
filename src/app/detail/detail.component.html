@@ -75,7 +75,8 @@
 
                             <!--tags-->
                             <nz-page-header-tags>
-                                <nz-tag [nzColor]="'blue'">Running</nz-tag>
+                                <nz-tag [nzColor]="'orange'" *ngIf="tab.isProcessing">Running</nz-tag>
+                                <nz-tag [nzColor]="'green'" *ngIf="tab.lhr">Completed</nz-tag>
                             </nz-page-header-tags>
 
                             <!--extra-->
@@ -103,49 +104,81 @@
                                 <br /><br />
                                 <div>
                                     <nz-divider nzText="Audit Report" nzOrientation="center"></nz-divider>
-                                    <nz-spin [nzSpinning]="tab.isProcessing">
+                                    <nz-spin [nzSpinning]="tab.isProcessing" *ngIf="!tab.lhr">
                                         <nz-empty></nz-empty>
                                     </nz-spin>
 
-                                    <div style="background: #ECECEC; padding: 30px;">
-                                        <nz-row [nzGutter]="16">
-                                            <nz-col [nzSpan]="12">
+                                    <div style="background: #ececec; padding: 30px" *ngIf="tab.lhr">
+                                        <nz-row [nzGutter]="[16, 24]">
+                                            <nz-col [nzSpan]="8">
                                                 <nz-card>
-                                                    <nz-statistic [nzValue]="(11.28 | number: '1.0-2')!" [nzTitle]="'Active'" [nzPrefix]="prefixTplOne" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#3F8600' }">
+                                                    <nz-statistic [nzValue]="
+                              (tab.lhr.categories.performance.score * 100
+                                | number: '1.0-2')!
+                            " [nzTitle]="'Performance Score'" [nzPrefix]="perfStateTmpl" [nzSuffix]="'%'">
                                                     </nz-statistic>
-                                                    <ng-template #prefixTplOne><i nz-icon nzType="arrow-up"></i></ng-template>
+                                                    <ng-template #perfStateTmpl>
+                                                        <em nz-icon style="color: '#ff4d4f'" nzType="close-circle" *ngIf="
+                                tab.lhr.categories.performance.score <= 0.85
+                              "></em>
+                                                        <em nz-icon style="color: '#3f8600'" nzType="check-circle" *ngIf="
+                                tab.lhr.categories.performance.score > 0.85
+                              "></em>
+                                                    </ng-template>
                                                 </nz-card>
                                             </nz-col>
-                                            <nz-col [nzSpan]="12">
+                                            <nz-col [nzSpan]="8">
                                                 <nz-card>
-                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    <nz-statistic [nzValue]="
+                              (tab.lhr.categories.seo.score * 100
+                                | number: '1.0-2')!
+                            " [nzTitle]="'SEO Score'" [nzPrefix]="seoStateTmpl" [nzSuffix]="'%'">
                                                     </nz-statistic>
-                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                    <ng-template #seoStateTmpl>
+                                                        <em nz-icon style="color: '#ff4d4f'" nzType="close-circle" *ngIf="tab.lhr.categories.seo.score <= 0.85"></em>
+                                                        <em nz-icon style="color: '#3f8600'" nzType="check-circle" *ngIf="tab.lhr.categories.seo.score > 0.85"></em>
+                                                    </ng-template>
+                                                </nz-card>
+                                            </nz-col>
+                                            <nz-col [nzSpan]="8">
+                                                <nz-card>
+                                                    <nz-statistic [nzValue]="
+                              (tab.lhr.categories.accessibility.score * 100
+                                | number: '1.0-2')!
+                            " [nzTitle]="'Accessibility Score'" [nzPrefix]="a11yStateTmpl" [nzSuffix]="'%'">
+                                                    </nz-statistic>
+                                                    <ng-template #a11yStateTmpl>
+                                                        <em nz-icon style="color: '#ff4d4f'" nzType="close-circle" *ngIf="tab.lhr.categories.accessibility.score <= 0.85"></em>
+                                                        <em nz-icon style="color: '#3f8600'" nzType="check-circle" *ngIf="tab.lhr.categories.accessibility.score > 0.85"></em>
+                                                    </ng-template>
                                                 </nz-card>
                                             </nz-col>
                                         </nz-row>
-                                        <nz-row [nzGutter]="16">
+                                        <nz-row [nzGutter]="[16, 24]">
                                             <nz-col [nzSpan]="12">
                                                 <nz-card>
-                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    <nz-statistic [nzValue]="
+                              (tab.lhr.categories['best-practices'].score * 100
+                                | number: '1.0-2')!
+                            " [nzTitle]="'Best Practices Score'" [nzPrefix]="bestPStateTmpl" [nzSuffix]="'%'">
                                                     </nz-statistic>
-                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                    <ng-template #bestPStateTmpl>
+                                                        <em nz-icon style="color: '#ff4d4f'" nzType="close-circle" *ngIf="tab.lhr.categories['best-practices'].score <= 0.85"></em>
+                                                        <em nz-icon style="color: '#3f8600'" nzType="check-circle" *ngIf="tab.lhr.categories['best-practices'].score > 0.85"></em>
+                                                    </ng-template>
                                                 </nz-card>
                                             </nz-col>
                                             <nz-col [nzSpan]="12">
                                                 <nz-card>
-                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
+                                                    <nz-statistic [nzValue]="
+                              (tab.lhr.categories.pwa.score * 100
+                                | number: '1.0-2')!
+                            " [nzTitle]="'PWA Score'" [nzPrefix]="pwaStateTmpl" [nzSuffix]="'%'">
                                                     </nz-statistic>
-                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
-                                                </nz-card>
-                                            </nz-col>
-                                        </nz-row>
-                                        <nz-row [nzGutter]="16">
-                                            <nz-col [nzSpan]="12">
-                                                <nz-card>
-                                                    <nz-statistic [nzValue]="(9.3 | number: '1.0-2')!" [nzTitle]="'Idle'" [nzPrefix]="prefixTplTwo" [nzSuffix]="'%'" [nzValueStyle]="{ color: '#CF1322' }">
-                                                    </nz-statistic>
-                                                    <ng-template #prefixTplTwo><i nz-icon nzType="arrow-down"></i></ng-template>
+                                                    <ng-template #pwaStateTmpl>
+                                                        <em nz-icon style="color: '#ff4d4f'" nzType="close-circle" *ngIf="tab.lhr.categories.pwa.score <= 0.85"></em>
+                                                        <em nz-icon style="color: '#3f8600'" nzType="check-circle" *ngIf="tab.lhr.categories.pwa.score > 0.85"></em>
+                                                    </ng-template>
                                                 </nz-card>
                                             </nz-col>
                                         </nz-row>

@@ -4,6 +4,8 @@ export interface Project {
   _id?: string;
   name: string;
   urls?: Array<URLConfig>;
+  createdAt?: Date,
+  updatedAt?: Date
 }
 
 
