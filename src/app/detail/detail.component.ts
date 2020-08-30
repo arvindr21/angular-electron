@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Project, URLConfig } from '../shared/models/project';
 
 import { ActivatedRoute } from '@angular/router';
+import { LinkPreviewService } from "../tools/link-preview.service";
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProjectService } from "../shared/services/project.service";
 import { URL_REGEX } from "../utilities";
@@ -26,7 +27,8 @@ export class DetailComponent implements OnInit {
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private fb: FormBuilder,
-    private messageService: NzMessageService
+    private messageService: NzMessageService,
+    private linkPreviewService: LinkPreviewService
   ) { }
 
   ngOnInit(): void {
@@ -78,8 +80,6 @@ export class DetailComponent implements OnInit {
     const name = this.validateForm.get('name').value;
     const url = this.validateForm.get('url').value;
 
-    console.log(name, url)
-
     if (!name || !url) return;
     this.isOkLoading = true;
 
@@ -104,7 +104,10 @@ export class DetailComponent implements OnInit {
     this.validateForm.reset();
   }
 
-  audit(id: number): void {
+  audit(urlConfig: URLConfig): void {
+    this.linkPreviewService.get(urlConfig.url).then(d => {
+      console.log(d);
+    })
 
   }
 

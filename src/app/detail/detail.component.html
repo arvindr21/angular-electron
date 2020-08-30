@@ -49,7 +49,7 @@
                                 <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.url" (blur)="stopEdit(data)" required />
                             </td>
                             <td>
-                                <button nz-button (click)="audit(data.id)" nzType="primary">
+                                <button nz-button (click)="audit(data)" nzType="primary">
                                 Audit
                               </button>
                                 <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
