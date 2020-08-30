@@ -8,5 +8,6 @@ export interface Project {
 export interface URLConfig {
   id: number;
   name: string;
-  url: string
+  url: string;
+  isProcessing?: boolean;
 }

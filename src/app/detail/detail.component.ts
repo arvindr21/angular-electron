@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Project, URLConfig } from '../shared/models/project';
 
 import { ActivatedRoute } from '@angular/router';
+import { LighthouseService } from "../tools/lighthouse.service";
 import { LinkPreviewService } from "../tools/link-preview.service";
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProjectService } from "../shared/services/project.service";
@@ -22,16 +23,19 @@ export class DetailComponent implements OnInit {
   isVisible = false;
   isOkLoading = false;
   validateForm!: FormGroup;
+  isSpinning = true;
 
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private fb: FormBuilder,
     private messageService: NzMessageService,
-    private linkPreviewService: LinkPreviewService
+    private linkPreviewService: LinkPreviewService,
+    private lighthouseService: LighthouseService
   ) { }
 
-  ngOnInit(): void {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.load();
     this.validateForm = this.fb.group({
@@ -69,10 +73,12 @@ export class DetailComponent implements OnInit {
   }
 
   load(): void {
+    this.isSpinning = true;
     this.projectService.getOne(this.id).then((p: Project) => {
       this.project = p;
       p.urls = p.urls || [];
       this.listOfData = p.urls;
+      this.isSpinning = false;
     });
   }
 
@@ -86,7 +92,8 @@ export class DetailComponent implements OnInit {
     this.project.urls.push({
       id: +new Date(),
       name,
-      url
+      url,
+      isProcessing: false
     });
 
     this.projectService.update(this.project).then(() => {
@@ -104,11 +111,16 @@ export class DetailComponent implements OnInit {
     this.validateForm.reset();
   }
 
-  audit(urlConfig: URLConfig): void {
-    this.linkPreviewService.get(urlConfig.url).then(d => {
-      console.log(d);
-    })
-
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  async audit(urlConfig: URLConfig) {
+    // https://github.com/GoogleChrome/lighthouse/blob/master/docs/understanding-results.md
+    // this.linkPreviewService.get(urlConfig.url).then(d => {
+    //   console.log(d);
+    // });
+    urlConfig.isProcessing = true;
+    const report = await this.lighthouseService.getReport(urlConfig.url);
+    console.log(report.lhr);
+    urlConfig.isProcessing = false;
   }
 
 }

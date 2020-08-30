@@ -11,56 +11,63 @@
                 <a [routerLink]="['/']">Projects</a>
             </nz-breadcrumb-item>
             <nz-breadcrumb-item>{{ project.name }}</nz-breadcrumb-item>
-            <nz-breadcrumb-item>{{ project._id }}</nz-breadcrumb-item>
+            <!-- <nz-breadcrumb-item>{{ project._id }}</nz-breadcrumb-item> -->
         </nz-breadcrumb>
-        <nz-layout class="inner-layout">
-            <nz-sider nzWidth="200px" nzTheme="light">
-                <ul nz-menu nzMode="inline" class="sider-menu">
-                    <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzSelected>
-                        <em nz-icon nzType="tool"></em>
-                        <span>Setup</span>
-                    </li>
-                </ul>
-            </nz-sider>
-            <nz-content class="inner-content">
-                <button nz-button (click)="createNew()" nzType="primary">Add</button>
-                <br />
-                <br />
-                <nz-table #editRowTable nzBordered [nzData]="listOfData">
-                    <thead>
-                        <tr>
-                            <th scope="" nzWidth="30%">Name</th>
-                            <th scope="" nzWidth="40%">URL</th>
-                            <th scope="" nzWidth="20%">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of editRowTable.data" class="editable-row">
-                            <td>
-                                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                                    {{ data.name }}
-                                </div>
-                                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit(data)" />
-                            </td>
-                            <td>
-                                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
-                                    {{ data.url }}
-                                </div>
-                                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.url" (blur)="stopEdit(data)" required />
-                            </td>
-                            <td>
-                                <button nz-button (click)="audit(data)" nzType="primary">
-                                Audit
-                              </button>
-                                <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
-                                Delete
-                              </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </nz-table>
-            </nz-content>
-        </nz-layout>
+        <nz-spin [nzSpinning]="isSpinning">
+            <nz-layout class="inner-layout">
+                <nz-tabset [nzTabPosition]="'left'" [nzType]="'line'" [nzSize]="'large'" *ngIf="project">
+                    <nz-tab nzTitle="Setup">
+                        <ng-template nz-tab>
+                            <nz-content class="inner-content">
+                                <button nz-button (click)="createNew()" nzType="primary">Add URL(s)</button>
+                                <br />
+                                <br />
+                                <nz-table #editRowTable nzBordered [nzData]="listOfData">
+                                    <thead>
+                                        <tr>
+                                            <th scope="" nzWidth="30%">Name</th>
+                                            <th scope="" nzWidth="40%">URL</th>
+                                            <th scope="" nzWidth="20%">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let data of editRowTable.data" class="editable-row">
+                                            <td>
+                                                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                                                    {{ data.name }}
+                                                </div>
+                                                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.name" (blur)="stopEdit(data)" />
+                                            </td>
+                                            <td>
+                                                <div class="editable-cell" [hidden]="editId === data.id" (click)="startEdit(data.id)">
+                                                    {{ data.url }}
+                                                </div>
+                                                <input [hidden]="editId !== data.id" type="text" nz-input [(ngModel)]="data.url" (blur)="stopEdit(data)" required />
+                                            </td>
+                                            <td>
+                                                <!-- <button nz-button (click)="audit(data)" nzType="primary">
+                                  Audit
+                                </button> -->
+                                                <button nz-button nz-popconfirm nzPopconfirmTitle="Sure to delete?" nzDanger (nzOnConfirm)="deleteRow(data.id)">
+                                  Delete
+                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </nz-content>
+                        </ng-template>
+                    </nz-tab>
+                    <nz-tab *ngFor="let tab of project.urls" [nzTitle]="tab.name">
+                        <nz-result nzStatus="success" nzTitle="We are all set to Audit">
+                            <div nz-result-extra>
+                                <button nz-button nzType="primary" [nzLoading]="tab.isProcessing" (click)="audit(tab)">Start Audit</button>
+                            </div>
+                        </nz-result>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-layout>
+        </nz-spin>
         <nz-footer>PerfMan | Deloitte Consulting | ©2020</nz-footer>
     </nz-content>
 </nz-layout>

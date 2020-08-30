@@ -39,9 +39,13 @@
     },
     "dependencies": {
         "@types/nedb": "1.8.10",
+        "@types/puppeteer": "3.0.1",
+        "lighthouse": "6.3.0",
         "link-preview-js": "2.0.4",
         "nedb-promises": "4.0.4",
-        "ng-zorro-antd": "9.3.0"
+        "ng-zorro-antd": "9.3.0",
+        "puppeteer": "5.2.1",
+        "ws": "7.3.1"
     },
     "devDependencies": {
         "@angular-builders/custom-webpack": "9.1.0",

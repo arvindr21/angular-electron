@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { HomeModule } from './home/home.module';
 import { HttpClientJsonpModule } from '@angular/common/http';
 import { IconDefinition } from '@ant-design/icons-angular';
+import { LighthouseService } from "./tools/lighthouse.service";
 import { LinkPreviewService } from "./tools/link-preview.service";
 import { NZ_ICONS } from 'ng-zorro-antd/icon';
 import { NgModule } from '@angular/core';
@@ -70,7 +71,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   providers: [
     { provide: NZ_I18N, useValue: en_US },
     { provide: NZ_ICONS, useValue: icons },
-    LinkPreviewService
+    LinkPreviewService,
+    LighthouseService
   ],
   bootstrap: [AppComponent]
 })
