@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Project, URLConfig } from '../shared/models/project';
 
 import { ActivatedRoute } from '@angular/router';
+import { LighthouseResultObject } from '../shared/models/lhr';
 import { LighthouseService } from "../tools/lighthouse.service";
 import { LinkPreviewService } from "../tools/link-preview.service";
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -119,7 +120,8 @@ export class DetailComponent implements OnInit {
     // });
     urlConfig.isProcessing = true;
     const report = await this.lighthouseService.getReport(urlConfig.url);
-    console.log(report.lhr);
+    const lhr: LighthouseResultObject = report.lhr;
+    console.log(lhr);
     urlConfig.isProcessing = false;
   }
 
